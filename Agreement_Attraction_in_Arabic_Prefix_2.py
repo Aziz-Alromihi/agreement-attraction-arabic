@@ -54,11 +54,11 @@ try:
     with open(file_name, "r", encoding="utf-8") as file:
         stimuli = [line.strip() for line in file if line.strip()]
 except FileNotFoundError:
-    print(f"❌ Error: File '{file_name}' not found.")
+    print(f"Error: File '{file_name}' not found.")
     exit()
 
 if len(stimuli) % 4 != 0:
-    print("❌ Error: Stimuli file must contain a multiple of 4 lines.")
+    print("Error: Stimuli file must contain a multiple of 4 lines.")
     exit()
 
 conditions = [
@@ -93,7 +93,7 @@ for model_name in model_names:
                 prefix, rest = sentence.split("،")
                 target_word = rest.strip().split()[0]
             except Exception:
-                print(f"    ❌ Failed to extract prefix/verb from: {sentence}")
+                print(f" Failed to extract prefix/verb from: {sentence}")
                 output_lines.append(f"  {conditions[j]}: Skipped due to parsing error.\n")
                 continue
 
@@ -101,7 +101,7 @@ for model_name in model_names:
                 surprisal = compute_surprisal(model, tokenizer, prefix + "،", target_word)
                 output_lines.append(f"  {conditions[j]}: Surprisal Score = {surprisal:.4f}\n")
             except Exception:
-                print(f"    ❌ Failed to compute surprisal for: {target_word}")
+                print(f" Failed to compute surprisal for: {target_word}")
                 output_lines.append(f"  {conditions[j]}: Surprisal calculation failed for '{target_word}'.\n")
 
         output_lines.append("\n")
@@ -115,4 +115,4 @@ for model_name in model_names:
     with open(output_path, "w", encoding="utf-8") as f:
         f.writelines(output_lines)
 
-    print(f"✅ Results saved to: {output_path}")
+    print(f" Results saved to: {output_path}")
